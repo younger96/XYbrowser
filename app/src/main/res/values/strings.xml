@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">XY browser</string>
+    <string name="baidu">http://baidu.com</string>
+    <string name="sougou">http://wap.sogou.com</string>
+    <string name="souhu">http://m.sohu.com</string>
+    <string name="neteasy">http://m.163.com</string>
+    <string name="fenghuangwang">http://ifeng.com</string>
+    <string name="tencent">http://www.qq.com</string>
+    <string name="sina">http://sina.cn</string>
+    <string name="ctrip">http://m.ctrip.com</string>
+    <string name="youku">http://www.youku.com</string>
+    <string name="iqiyi">http://m.iqiyi.com</string>
+    <string name="taobao">http://www.taobao.com</string>
+    <string name="amazon">http://www.amazon.cn</string>
+    <string name="bilibili">http://www.bilibili.com</string>
+    <string name="koreandramas">http://m.hanjucc.com</string>
+    <string name="error">    哎哟喂，时光机好像出现了点问题哟~~~再点击我的时光机试试或者刷新一下呗~~~</string>
+
+</resources>
