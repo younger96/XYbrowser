@@ -45,7 +45,7 @@ public class HomepageFragment extends Fragment {
 
 
         //主页GridView和SimpleAdapter及数据源
-        homepage = (GridView) view.findViewById(R.id.gv_Homepage);
+        homepage = (GridView) view.findViewById(R.id.gv_homepage);
         datalist = new ArrayList<Map<String, Object>>();
         simadapter = new SimpleAdapter(getActivity(), getData(), R.layout.item_homepage, new String[]{"image", "text"}, new int[]{R.id.imv_imageView, R.id.tv_text});
         homepage.setAdapter(simadapter);

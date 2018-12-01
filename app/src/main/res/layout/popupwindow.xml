@@ -8,9 +8,7 @@
     <GridView
         android:id="@+id/gv_Menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:gravity="center"
-        android:horizontalSpacing="5dp"
-        android:numColumns="3"
-        android:verticalSpacing="5dp" />
+        android:numColumns="4" />
 </LinearLayout>
