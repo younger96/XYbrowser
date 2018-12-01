@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 
+import com.example.xybrowser.base.BaseFragmentActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,18 +21,15 @@ import static com.example.xybrowser.R.color.colorYELLOW;
 
 /**
  * Created by xy on 2017/4/10.
+ *
  */
 
-public class BHActivity extends FragmentActivity {
+public class BHActivity extends BaseFragmentActivity {
     private List<String> titleList;
     private List<Fragment> fragments;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bh);
-
-
+    protected void init() {
         titleList = new ArrayList<>();
         titleList.add("书签");
         titleList.add("历史记录");
@@ -49,8 +48,11 @@ public class BHActivity extends FragmentActivity {
         tab.setTextColor(BLACK);
         tab.setDrawFullUnderline(false);
         tab.setTabIndicatorColor(getResources().getColor(colorYELLOW));
+    }
 
-
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_bh;
     }
 }
 

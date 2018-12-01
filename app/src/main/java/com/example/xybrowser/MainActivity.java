@@ -31,6 +31,8 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.xybrowser.base.BaseFragmentActivity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +43,7 @@ import static android.content.ContentValues.TAG;
 import static android.widget.Toast.LENGTH_SHORT;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {
     private FragmentManager fm;
     private FragmentTransaction ft;
     private Fragment homepagefragment;
@@ -57,13 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SQLiteDatabase db;
     private SQLDatabaseHelper dbHelper;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-
+    protected void init() {
         dbHelper = new SQLDatabaseHelper(this, "Bookmark.db", null, 1);
         dbHelper.getWritableDatabase();
 
@@ -74,6 +71,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         HomepageFragment homepageFragment = new HomepageFragment();
         ft.add(R.id.fm_fragment, homepageFragment);
         ft.commit();
+
+        findViewById(R.id.btn_more).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAsDropDown();
+            }
+        });
 
         //Button
         Button menubutton = (Button) findViewById(R.id.bt_menu);
@@ -96,8 +100,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .addToBackStack(null)
                     .commit();
         }
+    }
 
-
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_main;
     }
 
     private void showAsDropDown() {
