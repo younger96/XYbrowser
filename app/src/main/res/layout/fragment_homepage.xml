@@ -8,7 +8,7 @@
     <GridView
         android:id="@+id/gv_homepage"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:paddingHorizontal="10dp"
         android:horizontalSpacing="10dp"

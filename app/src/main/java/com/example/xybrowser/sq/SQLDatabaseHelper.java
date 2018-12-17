@@ -10,10 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SQLDatabaseHelper extends SQLiteOpenHelper {
     //建表
-    public static final String CREATE_BOOKMARKS = "create table Bookmarks("
-            + "id integer primary key autoincrement, "
-            + "url text,"
-            + "chinese text) ";
+    public static final String CREATE_BOOKMARKS = "create table Bookmarks(" + "id integer primary key autoincrement, " + "url string," + "chinese string) ";
     private Context sqcontext;
 
     public SQLDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory,

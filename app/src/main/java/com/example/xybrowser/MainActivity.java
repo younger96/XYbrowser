@@ -59,8 +59,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     @Override
     protected void init() {
         dbHelper = new SQLDatabaseHelper(this, "Bookmark.db", null, 1);
-        dbHelper.getWritableDatabase();
-
 
         //Fragment
         FragmentManager fm = getSupportFragmentManager();
@@ -77,14 +75,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             }
         });
 
-        //Button
-        Button menubutton = (Button) findViewById(R.id.bt_menu);
+
 
         website = (AutoCompleteTextView) findViewById(R.id.actv_website);
 
 
-        //监听事件
-        menubutton.setOnClickListener(this);
 
 
         WebFragment webFragment = new WebFragment();
@@ -195,13 +190,10 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bt_menu:
-                showAsDropDown();
-                break;
+
 
 
         }
-
     }
 
     //Menu数据源
