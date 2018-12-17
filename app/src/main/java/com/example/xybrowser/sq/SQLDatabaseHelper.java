@@ -1,4 +1,4 @@
-package com.example.xybrowser;
+package com.example.xybrowser.sq;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

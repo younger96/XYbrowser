@@ -2,8 +2,10 @@ package com.example.xybrowser;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -95,9 +97,42 @@ public class WebFragment extends Fragment implements View.OnClickListener {
         }
         webview.loadUrl(str_website);
         webview.requestFocus();
+//        webview.setWebChromeClient(new WebChromeClient());
         webview.setWebViewClient(new WebViewClient() {
+            //网页错误
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+                if (errorCode == ERROR_HOST_LOOKUP || errorCode == ERROR_CONNECT || errorCode == ERROR_TIMEOUT)
+
+                    //设置可见性
+                    webview.setVisibility(View.GONE);
+                errortext.setVisibility(View.VISIBLE);
+            }
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if(url == null) return false;
+
+                try {
+                    if(url.startsWith("weixin://") //微信
+                            || url.startsWith("alipays://") //支付宝
+                            || url.startsWith("mailto://") //邮件
+                            || url.startsWith("tel://")//电话
+                            || url.startsWith("dianping://")//大众点评
+                            || url.startsWith("baiduboxapp://")
+                            || url.startsWith("baiduboxlite://")
+                        //其他自定义的scheme
+                            ) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                        return true;
+                    }
+                } catch (Exception e) { //防止crash (如果手机上没有安装处理某个scheme开头的url的APP, 会导致crash)
+                    return true;//没有安装该app时，返回true，表示拦截自定义链接，但不跳转，避免弹出上面的错误页面
+                }
+
+                //处理http和https开头的url
                 view.loadUrl(url);
                 return true;
             }
@@ -108,19 +143,6 @@ public class WebFragment extends Fragment implements View.OnClickListener {
         //webView优化缓存
         webview.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
-
-        //网页出错
-        webview.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                super.onReceivedError(view, errorCode, description, failingUrl);
-                if (errorCode == ERROR_HOST_LOOKUP || errorCode == ERROR_CONNECT || errorCode == ERROR_TIMEOUT)
-
-                    //设置可见性
-                    webview.setVisibility(View.GONE);
-                errortext.setVisibility(View.VISIBLE);
-            }
-        });
 
 
         //进度条

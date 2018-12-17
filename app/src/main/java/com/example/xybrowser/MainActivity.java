@@ -4,17 +4,12 @@ package com.example.xybrowser;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.ActionMenuView.LayoutParams;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -26,20 +21,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xybrowser.base.BaseFragmentActivity;
+import com.example.xybrowser.sq.SQLDatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.Inflater;
 
-import static android.content.ContentValues.TAG;
 import static android.widget.Toast.LENGTH_SHORT;
 
 
@@ -47,7 +41,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private FragmentManager fm;
     private FragmentTransaction ft;
     private Fragment homepagefragment;
-    private GridView gv_menu;
+    private ListView listMenu;
     private SimpleAdapter menu_simadapter;
     private List<Map<String, Object>> menu_datalist;
     private int[] menu_icon = {R.mipmap.setting, R.drawable.share, R.drawable.download, R.drawable.bh, R.drawable.add, R.drawable.exit};
@@ -58,6 +52,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private SQLiteDatabase sqLiteDatabase;
     private SQLiteDatabase db;
     private SQLDatabaseHelper dbHelper;
+
+    private Button btnMore;
+
 
     @Override
     protected void init() {
@@ -72,7 +69,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         ft.add(R.id.fm_fragment, homepageFragment);
         ft.commit();
 
-        findViewById(R.id.btn_more).setOnClickListener(new View.OnClickListener() {
+        btnMore = findViewById(R.id.btn_more);
+        btnMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showAsDropDown();
@@ -111,22 +109,18 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         //设置contentView  利用LayoutInflater获取R.layout.popupwindow对应的View
         View contentView = LayoutInflater.from(this).inflate(R.layout.popupwindow, null);
         //用构造函数来生成menu_popupwindow
-        menu_popupwindow = new PopupWindow(contentView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
-
-
-        //设置popupwindow里的控件点击事件
-
+        menu_popupwindow = new PopupWindow(contentView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
         //Menu的GridView
-        gv_menu = (GridView) contentView.findViewById(R.id.gv_Menu);
+        listMenu = (ListView) contentView.findViewById(R.id.list_menu_main);
         menu_datalist = new ArrayList<>();
         menu_simadapter = new SimpleAdapter(this, getMenuData(),
-                R.layout.item_homepage, new String[]{"image", "text"}, new int[]{R.id.imv_imageView, R.id.tv_text
+                R.layout.item_menu, new String[]{"image", "text"}, new int[]{R.id.img_item, R.id.tv_item
         });
-        gv_menu.setAdapter(menu_simadapter);
+        listMenu.setAdapter(menu_simadapter);
 
 
-        //菜单里的GridView的点击事件
-        gv_menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //菜单里的GridView的点击事件  设置popupwindow里的控件点击事件
+        listMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
@@ -186,19 +180,13 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 }
             }
         });
-        //显示窗体
-        //showAtLocation的显示就将PopupWindow的实例放在一个父容器中，即R.id.layout_menu
-
-        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_menu);
-        //指定其在父容器的位置
-        menu_popupwindow.showAtLocation(layout, Gravity.START, 0, 0);
-
-
+        //指定popupwindow的显示控件
+        menu_popupwindow.showAsDropDown(btnMore,0,0);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode==KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             website.setText("");
         }
         return super.onKeyDown(keyCode, event);
